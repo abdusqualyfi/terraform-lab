@@ -8,6 +8,8 @@ variables:
   azstorage: 'abdusstorage'
   azcontain: 'my-container'
   azstoragekey: 'abdusqualyfi.terraform-lab_runs.my-container'
+  db_username: 'sqladmin'
+  db_password: 'Y0unWkow$22'
 
 stages:
   - stage: tfvalidate
