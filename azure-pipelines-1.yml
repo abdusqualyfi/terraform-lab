@@ -1,29 +1,68 @@
-trigger:
-- main
+trigger: none
 
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- task: TerraformInstaller@0
-  inputs:
-    terraformVersion: '1.3.5'
+variables:
+  azresgroup: 'abdus-terraform'
+  azstorage: 'abdusstorage'
+  azcontain: 'my-container'
+  azstoragekey: 'abdusqualyfi.terraform-lab_runs.my-container'
 
-- task: TerraformCLI@0
-  inputs:
-    command: 'init'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-
-- task: TerraformCLI@0
-  inputs:
-    command: 'plan'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-    environmentServiceName: 'TerraformCloud'
-    commandOptions: '-var-file=myvars.tfvars'
-
-- task: TerraformCLI@0
-  inputs:
-    command: 'apply'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-    environmentServiceName: 'TerraformCloud'
-    commandOptions: '-var-file=myvars.tfvars -auto-approve'
+stages:
+  - stage: tfvalidate
+    jobs:
+      - job: validate
+        continueOnError: false
+        steps:
+          - task: TerraformInstaller@1
+            displayName: tfinstall
+            inputs:
+              terraformVersion: '1.3.5'
+          - task: TerraformTaskV4@4
+            displayName: init
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: 'abdusservcon'
+              backendAzureRmResourceGroupName: '$(azresgroup)'
+              backendAzureRmStorageAccountName: '$(azstorage)'
+              backendAzureRmContainerName: '$(azcontain)'
+              backendAzureRmKey: '$(azstoragekey)'
+          - task: TerraformTaskV4@4
+            displayName: validate
+            inputs:
+              provider: 'azurerm'
+              command: 'validate'
+  - stage: tfdeploy
+    condition: succeeded('tfvalidate')
+    dependsOn: tfvalidate
+    jobs:
+      - job: apply
+        steps:
+          - task: TerraformInstaller@1
+            displayName: tfinstall
+            inputs:
+              terraformVersion: '1.3.5'
+          - task: TerraformTaskV4@4
+            displayName: init
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: 'abdusservcon'
+              backendAzureRmResourceGroupName: '$(azresgroup)'
+              backendAzureRmStorageAccountName: '$(azstorage)'
+              backendAzureRmContainerName: '$(azcontain)'
+              backendAzureRmKey: '$(azstoragekey)'
+          - task: TerraformTaskV4@4
+            displayName: plan
+            inputs:
+              provider: 'azurerm'
+              command: 'plan'
+              environmentServiceNameAzureRM: 'abdusservcon'
+          - task: TerraformTaskV4@4
+            displayName: apply
+            inputs:
+              provider: 'azurerm'
+              command: 'apply'
+              environmentServiceNameAzureRM: 'abdusservcon'
