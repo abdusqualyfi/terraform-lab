@@ -11,6 +11,7 @@ terraform {
 #Provides config details for Azure Terraform provider
 provider "azurerm" {
   features {}
+  use_msi = true
 }
 
 #Provides the Resource Group to logically contain resources
