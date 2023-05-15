@@ -13,12 +13,6 @@ provider "azurerm" {
   features {}
 }
 
-#Provides the Resource Group to logically contain resources
-#resource "azurerm_resource_group" "gen_resource_group" {
-#  name     = "tf-lab"
-#  location = "northeurope"
-#}
-
 data "azurerm_resource_group" "gen_resource_group" {
   name = "tf-lab"
 }
