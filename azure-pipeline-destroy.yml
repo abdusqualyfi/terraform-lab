@@ -28,6 +28,7 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
+              workingDirectory: '$(System.DefaultWorkingDirectory)'
               backendServiceArm: 'Abdus Terraform Serv Conn'
               backendAzureRmResourceGroupName: 'tf-lab'
               backendAzureRmStorageAccountName: 'abdusterrastore'
@@ -38,10 +39,12 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'plan'
+              workingDirectory: '$(System.DefaultWorkingDirectory)'
               environmentServiceNameAzureRM: 'Abdus Terraform Serv Conn'
           - task: TerraformTaskV4@4
             displayName: destroy
             inputs:
               provider: 'azurerm'
               command: 'destroy'
+              workingDirectory: '$(System.DefaultWorkingDirectory)'
               environmentServiceNameAzureRM: 'Abdus Terraform Serv Conn'
