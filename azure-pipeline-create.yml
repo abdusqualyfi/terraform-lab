@@ -29,6 +29,7 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/_terraform-lab'
               backendServiceArm: 'Abdus Terraform Serv Conn'
               backendAzureRmResourceGroupName: 'tf-lab'
               backendAzureRmStorageAccountName: 'abdusterrastore'
@@ -39,6 +40,7 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'plan'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/_terraform-lab'
               environmentServiceNameAzureRM: 'Abdus Terraform Serv Conn'
   - stage: tfdeploy
     condition: succeeded('tfvalidate')
@@ -51,4 +53,5 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'apply'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/_terraform-lab'
               environmentServiceNameAzureRM: 'Abdus Terraform Serv Conn'
