@@ -34,22 +34,14 @@ stages:
               backendAzureRmStorageAccountName: 'abdusterrastore'
               backendAzureRmContainerName: 'landing'
               backendAzureRmKey: 'devpipeline.terraform.tfstate'
-          
           - task: TerraformTaskV4@4
-            displayName: state
+            displayName: show
             inputs:
               provider: 'azurerm'
-              command: 'custom'
+              command: 'show'
               workingDirectory: '$(System.DefaultWorkingDirectory)'
-              customCommand: 'terraform state list'
               outputTo: 'console'
-              environmentServiceNameAzureRM: 'Abdus Terraform Serv Conn'
-          - task: TerraformTaskV4@4
-            displayName: plan
-            inputs:
-              provider: 'azurerm'
-              command: 'plan'
-              workingDirectory: '$(System.DefaultWorkingDirectory)'
+              outputFormat: 'default'
               environmentServiceNameAzureRM: 'Abdus Terraform Serv Conn'
           - task: TerraformTaskV4@4
             displayName: destroy
