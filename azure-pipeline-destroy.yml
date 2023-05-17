@@ -35,13 +35,6 @@ stages:
               backendAzureRmContainerName: 'landing'
               backendAzureRmKey: 'devpipeline.terraform.tfstate'
           - task: TerraformTaskV4@4
-            displayName: plan
-            inputs:
-              provider: 'azurerm'
-              command: 'plan'
-              workingDirectory: '$(System.DefaultWorkingDirectory)'
-              environmentServiceNameAzureRM: 'Abdus Terraform Serv Conn'
-          - task: TerraformTaskV4@4
             displayName: destroy
             inputs:
               provider: 'azurerm'
