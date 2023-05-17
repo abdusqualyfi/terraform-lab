@@ -15,9 +15,9 @@ variables:
   storagekey: "devpipeline.terraform.tfstate"
 
 stages:
-  - stage: tfvalidate
+  - stage: tfapply
     jobs:
-      - job: provision
+      - job: create
         continueOnError: false
         steps:
           - task: TerraformInstaller@1
@@ -53,12 +53,5 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'apply'
-              workingDirectory: '$(System.DefaultWorkingDirectory)'
-              environmentServiceNameAzureRM: 'Abdus Terraform Serv Conn'
-          - task: TerraformTaskV4@4
-            displayName: destroy
-            inputs:
-              provider: 'azurerm'
-              command: 'destroy'
               workingDirectory: '$(System.DefaultWorkingDirectory)'
               environmentServiceNameAzureRM: 'Abdus Terraform Serv Conn'

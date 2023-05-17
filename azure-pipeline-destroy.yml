@@ -36,10 +36,10 @@ stages:
               backendAzureRmKey: 'devpipeline.terraform.tfstate'
           - script: |
               ls
-            displayName: 'List files'
+            displayName: 'directory'
           - script: |
               terraform state list
-            displayName: 'List Terraform State'
+            displayName: 'state'
           - script: |
               terraform destroy -auto-approve -target=azurerm_data_factory.gen_data_factory
-            displayName: 'Destroy specific resources'
+            displayName: 'destroy'
