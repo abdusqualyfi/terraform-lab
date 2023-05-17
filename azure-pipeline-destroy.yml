@@ -30,16 +30,19 @@ stages:
               command: 'init'
               workingDirectory: '$(System.DefaultWorkingDirectory)'
               backendServiceArm: 'Abdus Terraform Serv Conn'
-              backendAzureRmResourceGroupName: 'tf-lab'
-              backendAzureRmStorageAccountName: 'abdusterrastore'
-              backendAzureRmContainerName: 'landing'
-              backendAzureRmKey: 'devpipeline.terraform.tfstate'
+              backendAzureRmResourceGroupName: '$(resourcegroup)'
+              backendAzureRmStorageAccountName: '$(storageacc)'
+              backendAzureRmContainerName: '$(stcontainer)'
+              backendAzureRmKey: '$(storagekey)'
           - script: |
               ls
             displayName: 'directory'
           - script: |
               terraform state list
             displayName: 'state'
-          - script: |
-              terraform destroy -auto-approve -target=azurerm_data_factory.gen_data_factory
+          - task: TerraformTaskV4@4
             displayName: 'destroy'
+            inputs:
+              provider: 'azurerm'
+              command: 'destroy'
+              environmentServiceNameAzureRM: 'Abdus Terraform Serv Conn'
