@@ -15,9 +15,9 @@ variables:
   storagekey: "devpipeline.terraform.tfstate"
 
 stages:
-  - stage: tfvalidate
+  - stage: tfapply
     jobs:
-      - job: provision
+      - job: create
         continueOnError: false
         steps:
           - task: TerraformInstaller@1
