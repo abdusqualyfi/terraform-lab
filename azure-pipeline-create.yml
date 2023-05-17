@@ -31,16 +31,16 @@ stages:
               command: 'init'
               workingDirectory: '$(System.DefaultWorkingDirectory)'
               backendServiceArm: 'Abdus Terraform Serv Conn'
-              backendAzureRmResourceGroupName: 'tf-lab'
-              backendAzureRmStorageAccountName: 'abdusterrastore'
-              backendAzureRmContainerName: 'landing'
-              backendAzureRmKey: 'devpipeline.terraform.tfstate'
-          - task: Bash@3
-            displayName: ls
+              backendAzureRmResourceGroupName: '$(resourcegroup)'
+              backendAzureRmStorageAccountName: '$(storageacc)'
+              backendAzureRmContainerName: '$(stcontainer)'
+              backendAzureRmKey: '$(storagekey)'
+          - task: TerraformTaskV4@4
+            displayName: validate
             inputs:
-              targetType: 'inline'
               workingDirectory: '$(System.DefaultWorkingDirectory)'
-              script: 'ls'
+              provider: 'azurerm'
+              command: 'validate'
           - task: TerraformTaskV4@4
             displayName: plan
             inputs:
