@@ -35,6 +35,9 @@ stages:
               backendAzureRmContainerName: 'landing'
               backendAzureRmKey: 'devpipeline.terraform.tfstate'
           - script: |
+              ls
+            displayName: 'List files'
+          - script: |
               terraform state list
             displayName: 'List Terraform State'
           - script: |
