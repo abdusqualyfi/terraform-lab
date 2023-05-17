@@ -5,6 +5,12 @@ terraform {
       source = "hashicorp/azurerm"
     }
   }
+  backend "azurerm" {
+    resource_group_name = "tf-lab"
+    storage_account_name = "abdusterrastore"
+    container_name = "landing"
+    key = "devpipeline.terraform.tfstate"
+  }
 }
 
 #Provides config details for Azure Terraform provider
