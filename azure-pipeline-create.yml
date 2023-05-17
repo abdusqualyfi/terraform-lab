@@ -55,10 +55,3 @@ stages:
               command: 'apply'
               workingDirectory: '$(System.DefaultWorkingDirectory)'
               environmentServiceNameAzureRM: 'Abdus Terraform Serv Conn'
-          - task: TerraformTaskV4@4
-            displayName: destroy
-            inputs:
-              provider: 'azurerm'
-              command: 'destroy'
-              workingDirectory: '$(System.DefaultWorkingDirectory)'
-              environmentServiceNameAzureRM: 'Abdus Terraform Serv Conn'
