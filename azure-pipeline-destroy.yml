@@ -34,13 +34,14 @@ stages:
               backendAzureRmStorageAccountName: 'abdusterrastore'
               backendAzureRmContainerName: 'landing'
               backendAzureRmKey: 'devpipeline.terraform.tfstate'
+          
           - task: TerraformTaskV4@4
             displayName: state
             inputs:
               provider: 'azurerm'
               command: 'custom'
               workingDirectory: '$(System.DefaultWorkingDirectory)'
-              customCommand: 'state list'
+              customCommand: 'terraform state list'
               outputTo: 'console'
               environmentServiceNameAzureRM: 'Abdus Terraform Serv Conn'
           - task: TerraformTaskV4@4
@@ -55,6 +56,6 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'custom'
-              customCommand: 'destroy -auto-approve -target=azurerm_data_factory.gen_data_factory'
+              customCommand: 'terraform destroy -auto-approve -target=azurerm_data_factory.gen_data_factory'
               outputTo: 'console'
               environmentServiceNameAzureRM: 'Abdus Terraform Serv Conn'
