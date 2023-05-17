@@ -35,6 +35,12 @@ stages:
               backendAzureRmStorageAccountName: 'abdusterrastore'
               backendAzureRmContainerName: 'landing'
               backendAzureRmKey: 'devpipeline.terraform.tfstate'
+          - task: Bash@3
+            displayName: ls
+            inputs:
+              targetType: 'inline'
+              workingDirectory: '$(System.DefaultWorkingDirectory)'
+              script: 'ls'
           - task: TerraformTaskV4@4
             displayName: plan
             inputs:
@@ -47,5 +53,12 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'apply'
+              workingDirectory: '$(System.DefaultWorkingDirectory)'
+              environmentServiceNameAzureRM: 'Abdus Terraform Serv Conn'
+          - task: TerraformTaskV4@4
+            displayName: destroy
+            inputs:
+              provider: 'azurerm'
+              command: 'destroy'
               workingDirectory: '$(System.DefaultWorkingDirectory)'
               environmentServiceNameAzureRM: 'Abdus Terraform Serv Conn'
